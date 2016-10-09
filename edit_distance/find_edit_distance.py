@@ -11,6 +11,7 @@
 # Any python sidenotes are prefixed as 'PX' and presented at the end
 
 # Sample usage:
+# $python
 # from find_edit import find_edit_distance
 # find_edit_distance('stall', 'table')
 
@@ -20,7 +21,7 @@ costs = {'del': 1, 'ins': 1, 'rep': 2}
 
 
 # Main function and loop
-def find_edit_distance(w1, w2):
+def find_edit_distance(w1, w2, log=True):
     # Need to initialise the table first
     costs_table = init_costs_table(w1, w2)
 
@@ -33,13 +34,13 @@ def find_edit_distance(w1, w2):
         for row_i in range(len(costs_table[column_i])):
             costs_table[row_i][column_i] = min_distance(
                 costs_table, row_i, column_i, w1, w2)
-
-            pretty_print_table(costs_table)
+            if (log is True):
+                pretty_print_table(costs_table)
 
     # Visualise the table at the end
-    pretty_print_table(costs_table)
+    if (log is True):
+        pretty_print_table(costs_table)
 
-    # Return; depending on your interpreter, this might pretty-print by itself
     return costs_table
 
 
@@ -105,6 +106,7 @@ def pretty_print_table(table):
 
     # Empty line, for good measure
     print()
+
 
 # === Sidenotes ===
 # P1: Range(x, y) is a Python function that produces an iterable series of
