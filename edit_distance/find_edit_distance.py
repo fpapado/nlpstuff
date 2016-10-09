@@ -1,4 +1,5 @@
 #!/bin/python3
+import click
 
 # Minimum edit distance implementation that fills out and prints the costs
 # table. Does not keep backpointers at the moment.
@@ -14,19 +15,28 @@
 # $python
 # from find_edit import find_edit_distance
 # find_edit_distance('stall', 'table')
+# Or use the command line:
+# python find_edit_distance --w1="word1" --w2="word2"
 
 # Costs are placed here for customisation.
 # Might want to try 'rep': 1 for Levenshtein distance
 costs = {'del': 1, 'ins': 1, 'rep': 2}
 
 
-# Main function and loop
-def find_edit_distance(w1, w2, log=True):
+# Main function and loop; using click annotations for cli use, but feel free
+# to just use the interpreter
+@click.command()
+@click.option('--w1', prompt="First word", help='First word')
+@click.option('--w2', prompt="Second word", help='Second word')
+@click.option('--log', default=True, help='Logging')
+@click.option('--printfinal', default=True, help='Print final costs')
+def find_edit_distance(w1, w2, log=True, printfinal=True):
     # Need to initialise the table first
     costs_table = init_costs_table(w1, w2)
 
     # Visualise
-    pretty_print_table(costs_table)
+    if (log is True):
+        pretty_print_table(costs_table)
 
     # P1
     # Loop over the columns, row-by-row
@@ -38,7 +48,7 @@ def find_edit_distance(w1, w2, log=True):
                 pretty_print_table(costs_table)
 
     # Visualise the table at the end
-    if (log is True):
+    if (printfinal is True):
         pretty_print_table(costs_table)
 
     return costs_table
@@ -106,6 +116,10 @@ def pretty_print_table(table):
 
     # Empty line, for good measure
     print()
+
+
+if __name__ == '__main__':
+    find_edit_distance()
 
 
 # === Sidenotes ===
