@@ -1,8 +1,9 @@
 #!/bin/python3
 import click
 
-# Minimum edit distance implementation that fills out and prints the costs
-# table. Does not keep backpointers at the moment.
+"""Minimum edit distance implementation that fills out and returns the costs
+table between two words. Does not keep backpointers at the moment.
+"""
 
 # This script is particularly suited for ANLP students that have not taken many
 # programming classes and might be wondering how to implement this with simple
@@ -31,6 +32,7 @@ costs = {'del': 1, 'ins': 1, 'rep': 2}
 @click.option('--log', default=True, help='Logging')
 @click.option('--printfinal', default=True, help='Print final costs')
 def find_edit_distance(w1, w2, log=True, printfinal=True):
+    """Calculate and return the full costs table between two words."""
     # Need to initialise the table first
     costs_table = init_costs_table(w1, w2)
 
@@ -54,8 +56,10 @@ def find_edit_distance(w1, w2, log=True, printfinal=True):
     return costs_table
 
 
-# Find minimum distance given the three possible moves and "previous" costs
 def min_distance(costs_table, row_i, column_i, w1, w2):
+    """Return the minimum distance betwen corresponding cells in two words,
+    given a costs table.
+    """
     candidates = []
 
     # Moving down means we have a deletion cost, plus previous cost
@@ -93,8 +97,8 @@ def min_distance(costs_table, row_i, column_i, w1, w2):
         return 0
 
 
-# Construct table with identities and empty start
 def init_costs_table(w1, w2):
+    """Construct and return table with identities and empty start."""
     costs_table = []
 
     # Notice we add 1, to account for the 'empty' cell at the start
@@ -109,8 +113,8 @@ def init_costs_table(w1, w2):
     return costs_table
 
 
-# Print each row on its own line
 def pretty_print_table(table):
+    """Print each row in passed table on its own line."""
     for row in table:
         print(row)
 
